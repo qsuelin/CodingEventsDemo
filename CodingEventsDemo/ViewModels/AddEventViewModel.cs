@@ -15,5 +15,14 @@ namespace CodingEventsDemo.ViewModels
 
         [EmailAddress]
         public string ContactEmail { get; set; }
+
+        [Required(ErrorMessage ="Location is required")]
+        public string Location { get; set; }
+
+        [StringLength(100000, MinimumLength = 0, ErrorMessage = "Must be between 0~10,000")]
+        public string AttendeeNum { get; set; }
+
+        //[Compare]
+        //public Boolean IsTrue { get { return true; } }
     }
 }
