@@ -13,13 +13,13 @@ namespace CodingEventsDemo.Models
 
         public EventType Type { get; set; }
 
-        public int Id { get; }
-        static private int nextId = 1;
+        public int Id { get; set; }
+        //static private int nextId = 1;
 
         public Event()
         {
-            Id = nextId;
-            nextId++;
+            //Id = nextId;
+            //nextId++;
         }
 
         public Event(string name, string description, string contactEmail) : this()
