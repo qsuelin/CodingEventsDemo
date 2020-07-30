@@ -15,6 +15,7 @@ else
             <th>Email</th>
             <th>Phone</th>
             <th>City</th>
+            <th>View</th>
         </tr>
     @foreach (var contact in Model)
     {
@@ -24,6 +25,7 @@ else
             <td>@contact.Email</td>
             <td>@contact.PhoneNumber</td>
             <td>@contact.City</td>
+            <td><a asp-controller="Contact" asp-action="View" asp-route-id="@contact.Id">View</a></td>
         </tr>
     }
     </table>
