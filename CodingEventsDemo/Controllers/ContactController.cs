@@ -41,6 +41,7 @@ namespace CodingEventsDemo.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Add(AddContactViewModel addContactViewModel)
         {
             if (ModelState.IsValid)
