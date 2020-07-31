@@ -34,7 +34,8 @@ namespace coding_events_practice.Controllers
         public IActionResult Add()
         {
             List<EventCategory> categories = context.Categories.ToList();
-            AddEventViewModel addEventViewModel = new AddEventViewModel(categories);
+            List<Contact> contacts = context.Contacts.ToList();
+            AddEventViewModel addEventViewModel = new AddEventViewModel(categories,contacts);
 
             return View(addEventViewModel);
         }
@@ -50,7 +51,7 @@ namespace coding_events_practice.Controllers
                 {
                     Name = addEventViewModel.Name,
                     Description = addEventViewModel.Description,
-                    ContactEmail = addEventViewModel.ContactEmail,
+                    //ContactEmail = addEventViewModel.ContactEmail,
                     //Type = addEventViewModel.Type
                     Category = category
                 };

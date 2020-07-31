@@ -13,9 +13,13 @@
         <input asp-for="Description" />
         <span asp-validation-for="Description"></span>
     </div>
-    <div class="form-group">
+    @*<div class="form-group">
         <label asp-for="ContactEmail">Contact Email</label>
         <input asp-for="ContactEmail" />
+      </div>*@
+    <div class="form-group">
+        <label asp-for="ContactId">Contact</label>
+        <select asp-for="ContactId" asp-items="Model.Contacts"></select>
     </div>
     <div class="form-group">
         (<label asp-for="CategoryId">Event Type</label>
