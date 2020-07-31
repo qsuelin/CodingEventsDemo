@@ -8,7 +8,7 @@ namespace CodingEventsDemo.ViewModels
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public string ContactEmail { get; set;}
+        //public string ContactEmail { get; set;}
         public string CategoryName { get; set; }
         public int EventId { get; set; }
 
@@ -19,7 +19,7 @@ namespace CodingEventsDemo.ViewModels
             Name = theEvent.Name;
             EventId = theEvent.Id;
             Description = theEvent.Description;
-            ContactEmail = theEvent.ContactEmail;
+            //ContactEmail = theEvent.ContactEmail;
             CategoryName = theEvent.Category.Name;
 
             TagText = "";

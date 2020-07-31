@@ -28,8 +28,11 @@ else
             <th>
                 Description
             </th>
+            @*<th>
+            Contact Email
+        </th>*@
             <th>
-                Contact Email
+                Event Contact
             </th>
             <th>
                 Category
@@ -37,13 +40,14 @@ else
         </tr>
         @foreach (var evt in Model)
         {
-            <tr>
-                <td>@evt.Id</td>
-                <td>@evt.Name</td>
-                <td>@evt.Description</td>
-                <td>@evt.ContactEmail</td>
-                <td>@evt.Category.Name</td>
-            </tr>
+    <tr>
+        <td>@evt.Id</td>
+        <td>@evt.Name</td>
+        <td>@evt.Description</td>
+        @*<td>@evt.ContactEmail</td>*@
+        <td>@evt.Contact.Name</td>
+        <td>@evt.Category.Name</td>
+    </tr>
         }
     </table>
 }

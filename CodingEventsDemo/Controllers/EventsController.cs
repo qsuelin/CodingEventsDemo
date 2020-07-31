@@ -25,8 +25,10 @@ namespace coding_events_practice.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            List<Event> events = context.Events.
-                Include(e=>e.Category).ToList();
+            List<Event> events = context.Events
+                .Include(e=>e.Category)
+                .Include(e=>e.Contact)
+                .ToList();
 
             return View(events);
         }
@@ -34,7 +36,8 @@ namespace coding_events_practice.Controllers
         public IActionResult Add()
         {
             List<EventCategory> categories = context.Categories.ToList();
-            AddEventViewModel addEventViewModel = new AddEventViewModel(categories);
+            List<Contact> contacts = context.Contacts.ToList();
+            AddEventViewModel addEventViewModel = new AddEventViewModel(categories,contacts);
 
             return View(addEventViewModel);
         }
@@ -45,12 +48,14 @@ namespace coding_events_practice.Controllers
             if (ModelState.IsValid)
             {
                 EventCategory category = context.Categories.Find(addEventViewModel.CategoryId);
+                Contact contact = context.Contacts.Find(addEventViewModel.ContactId);
 
                 Event newEvent = new Event
                 {
                     Name = addEventViewModel.Name,
                     Description = addEventViewModel.Description,
-                    ContactEmail = addEventViewModel.ContactEmail,
+                    //ContactEmail = addEventViewModel.ContactEmail,
+                    Contact = contact,
                     //Type = addEventViewModel.Type
                     Category = category
                 };

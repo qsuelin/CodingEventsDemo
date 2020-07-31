@@ -16,13 +16,16 @@ namespace CodingEventsDemo.ViewModels
         [StringLength(500, ErrorMessage = "Description too long!")]
         public string Description { get; set; }
 
-        [EmailAddress]
-        public string ContactEmail { get; set; }
+        //[EmailAddress]
+        //public string ContactEmail { get; set; }
 
         //public EventType Type { get; set; }
         [Required(ErrorMessage = "Category is required")]
         public int CategoryId { get; set; }
 
+        [Required(ErrorMessage = "Contact is required")]
+        public int ContactId { get; set; }
+        public List<SelectListItem>Contacts { get; set; }
         //public List<SelectListItem> EventTypes { get; set;  } = new List<SelectListItem>
         //{
         //    new SelectListItem(EventType.Conference.ToString(), ((int)EventType.Conference).ToString()),
@@ -32,7 +35,7 @@ namespace CodingEventsDemo.ViewModels
         //};
         public List<SelectListItem> Categories { get; set; }
 
-        public AddEventViewModel(List<EventCategory> categories)
+        public AddEventViewModel(List<EventCategory> categories, List<Contact> contacts)
         {
             Categories = new List<SelectListItem>();
             foreach (var category in categories)
@@ -42,6 +45,17 @@ namespace CodingEventsDemo.ViewModels
                     Value = category.Id.ToString(),
                     Text = category.Name
                 });
+            }
+
+            Contacts = new List<SelectListItem>();
+            foreach (var contact in contacts)
+            {
+                Contacts.Add(new SelectListItem
+                {
+                    Value = contact.Id.ToString(),
+                    Text = contact.Name
+                });
+
             }
         }
 
