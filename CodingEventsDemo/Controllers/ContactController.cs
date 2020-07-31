@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using CodingEventsDemo.Data;
 using CodingEventsDemo.Models;
 using CodingEventsDemo.ViewModels;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodingEventsDemo.Controllers
@@ -11,10 +13,12 @@ namespace CodingEventsDemo.Controllers
     public class ContactController: Controller
     {
         private EventDbContext context;
+        private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ContactController (EventDbContext dbContext)
+        public ContactController (EventDbContext dbContext, IWebHostEnvironment hostEnvironment)
         {
             context = dbContext;
+            webHostEnvironment = hostEnvironment;
         }
 
         //public ContactController()
@@ -41,12 +45,15 @@ namespace CodingEventsDemo.Controllers
         {
             if (ModelState.IsValid)
             {
+                string uniqueFileName = UploadedFile(addContactViewModel);
+
                 Contact newContact = new Contact
                 {
                     Name = addContactViewModel.FirstName + addContactViewModel.LastName,
                     Email = addContactViewModel.Email,
                     PhoneNumber = addContactViewModel.PhoneNumber,
-                    City = addContactViewModel.City
+                    City = addContactViewModel.City,
+                    ProfilePicture = uniqueFileName
                 };
                 context.Contacts.Add(newContact);
                 context.SaveChanges();
@@ -61,6 +68,22 @@ namespace CodingEventsDemo.Controllers
             Contact theContact = context.Contacts.Find(id);
             ContactDetailViewModel contactDetailView = new ContactDetailViewModel(theContact);
             return View(contactDetailView);
+        }
+
+        private string UploadedFile(AddContactViewModel addContactViewModel)
+        {
+            string uniqueFileName = null;
+            if (addContactViewModel.ProfileImage != null)
+            {
+                string uploadsFolder = Path.Combine(webHostEnvironment.WebRootPath, "images");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + addContactViewModel.ProfileImage.FileName;
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    addContactViewModel.ProfileImage.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
     }
 }
