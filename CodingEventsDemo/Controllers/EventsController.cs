@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CodingEventsDemo.Data;
 using CodingEventsDemo.Models;
 using CodingEventsDemo.ViewModels;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,20 +16,25 @@ namespace coding_events_practice.Controllers
 {
     public class EventsController : Controller
     {
-
+        private readonly UserManager<IdentityUser> _userManager;
         private EventDbContext context;
 
-        public EventsController(EventDbContext dbContext)
+        public EventsController(EventDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             context = dbContext;
+            _userManager = userManager;
         }
 
         // GET: /<controller>/
+        //[AllowAnonymous]
         public IActionResult Index()
         {
+            var userId = _userManager.GetUserId(User);
+
             List<Event> events = context.Events
                 .Include(e=>e.Category)
                 .Include(e=>e.Contact)
+                .Where(e=>e.UserId==userId)
                 .ToList();
 
             return View(events);
@@ -47,6 +54,7 @@ namespace coding_events_practice.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = _userManager.GetUserId(User);
                 EventCategory category = context.Categories.Find(addEventViewModel.CategoryId);
                 Contact contact = context.Contacts.Find(addEventViewModel.ContactId);
 
@@ -57,9 +65,9 @@ namespace coding_events_practice.Controllers
                     //ContactEmail = addEventViewModel.ContactEmail,
                     Contact = contact,
                     //Type = addEventViewModel.Type
-                    Category = category
+                    Category = category,
+                    UserId = userId
                 };
-                
 
                 context.Events.Add(newEvent);
                 context.SaveChanges();
