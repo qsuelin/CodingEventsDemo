@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace coding_events_practice.Controllers
 {
+    [Authorize]
     public class EventsController : Controller
     {
         private readonly UserManager<IdentityUser> _userManager;
