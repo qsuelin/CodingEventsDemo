@@ -56,6 +56,7 @@ namespace CodingEventsDemo.Controllers
                     City = addContactViewModel.City,
                     ProfilePicture = uniqueFileName
                 };
+
                 context.Contacts.Add(newContact);
                 context.SaveChanges();
                 return Redirect("/Contact");

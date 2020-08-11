@@ -5,6 +5,7 @@ using CodingEventsDemo.Data;
 using CodingEventsDemo.Models;
 using CodingEventsDemo.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodingEventsDemo.Controllers
 {
@@ -87,6 +88,17 @@ namespace CodingEventsDemo.Controllers
 
             }
             return View(viewModel);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            List<EventTag> eventTags = context.EventTags
+                .Where(et => et.TagId == id)
+                .Include(et => et.Event)
+                .Include(et => et.Tag)
+                .ToList();
+
+            return View(eventTags);
         }
     }
 }
